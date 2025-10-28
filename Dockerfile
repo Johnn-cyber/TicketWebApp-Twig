@@ -19,6 +19,9 @@ RUN composer install --no-dev --optimize-autoloader
 
 # Expose Apache port
 EXPOSE 80
+RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf \
+    && chown -R www-data:www-data /var/www/html \
+    && chmod -R 755 /var/www/html
 
 # Start Apache server
 CMD ["apache2-foreground"]
