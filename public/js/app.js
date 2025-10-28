@@ -54,4 +54,6 @@ document.addEventListener('DOMContentLoaded', function() {
             navigateTo('login');
         }, 1000);
     }
+
 });
+window.navigateTo = navigateTo;
