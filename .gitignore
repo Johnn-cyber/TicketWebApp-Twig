@@ -1,0 +1,17 @@
+# Composer dependencies
+/vendor/
+
+# Environment files
+.env
+
+# Cache or temporary files
+.cache/
+.phpunit.result.cache
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Editor configs
+.vscode/
+.idea/
