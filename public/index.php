@@ -12,7 +12,7 @@ $twig = new Environment($loader, [
 ]);
 
 // Add global variables
-$twig->addGlobal('base_url', rtrim((isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'], '/'));
+$twig->addGlobal('base_url', 'https://' . $_SERVER['HTTP_HOST']);
 
 // Get the page from URL or default to landing
 $page = $_GET['page'] ?? 'landing';
@@ -36,3 +36,4 @@ try {
     echo "Error loading page: " . $e->getMessage();
 
 }
+
