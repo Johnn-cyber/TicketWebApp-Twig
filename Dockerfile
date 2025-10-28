@@ -1,14 +1,12 @@
-# Use the official PHP 8 image
-FROM php:8.2-apache
+FROM php:8.2-cli
 
-# Install dependencies and enable required PHP extensions
-RUN docker-php-ext-install pdo pdo_mysql
+WORKDIR /app
+COPY . .
 
-# Copy project files to Apache root
-COPY . /var/www/html/
+RUN composer install
 
-# Set working directory
-WORKDIR /var/www/html/
+# Set PORT manually or fallback to 8080
+ENV PORT=8080
 
-# Expose the web server port
-EXPOSE 80
+CMD ["php", "-S", "0.0.0.0:8080", "-t", "public"]
+EXPOSE 8080
