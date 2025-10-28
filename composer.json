@@ -3,7 +3,7 @@
     "description": "Ticket Management SPA with PHP and Twig",
     "type": "project",
     "require": {
-        "php": ">=7.4",
+        "php": "^8.0",
         "twig/twig": "^3.0"
     },
     "autoload": {
@@ -11,4 +11,5 @@
             "App\\": "src/"
         }
     }
+
 }
