@@ -43,6 +43,7 @@ php -S localhost:8000 -t public
 Your app should now be accessible at http://localhost:8000
 
 📁 Project Structure
+```
 ticketapp-twig/
 ├── public/                 # Public files 
 │   ├── index.php
@@ -63,6 +64,7 @@ ticketapp-twig/
 ├── composer.lock
 ├── .gitignore
 └── README.md
+```
 🔑 Authentication
 
 This app includes a basic simulated authentication system using PHP sessions.
