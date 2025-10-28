@@ -1,0 +1,117 @@
+{% extends "layouts/base.twig" %}
+
+{% block title %}Dashboard - TicketApp{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow">
+        <div class="container-max h-16 flex items-center justify-between">
+            <div class="text-2xl font-bold text-gray-900">TicketApp</div>
+            <div class="flex items-center space-x-4">
+                <a href="#" onclick="navigateTo('tickets'); return false;" class="btn-secondary">
+                    Manage Tickets
+                </a>
+                <button onclick="Auth.logout()" class="btn-primary">
+                    Logout
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container-max py-8">
+        <div class="md:flex md:items-center md:justify-between mb-8">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-900">Dashboard</h1>
+                <p class="mt-1 text-sm text-gray-600">
+                    Overview of your ticket management system
+                </p>
+            </div>
+            <div class="mt-4 md:mt-0">
+                <a href="#" onclick="navigateTo('tickets'); return false;" class="btn-primary">
+                    Create New Ticket
+                </a>
+            </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div id="stats-grid" class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4"></div>
+
+        <!-- Recent Activity -->
+        <div class="mt-8">
+            <h2 class="text-lg font-medium text-gray-900 mb-4">Recent Activity</h2>
+            <div class="card">
+                <div id="recent-activity" class="divide-y divide-gray-200"></div>
+            </div>
+        </div>
+    </main>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Load dashboard data
+function loadDashboard() {
+    const tickets = TicketManager.getTickets();
+    
+    // Calculate stats
+    const stats = [
+        { name: 'Total Tickets', value: tickets.length },
+        { name: 'Open Tickets', value: tickets.filter(t => t.status === 'open').length },
+        { name: 'In Progress', value: tickets.filter(t => t.status === 'in_progress').length },
+        { name: 'Resolved', value: tickets.filter(t => t.status === 'closed').length },
+    ];
+    
+    // Render stats
+    const statsGrid = document.getElementById('stats-grid');
+    statsGrid.innerHTML = stats.map(stat => `
+        <div class="card">
+            <dt class="text-sm font-medium text-gray-600">${stat.name}</dt>
+            <dd class="mt-1 text-3xl font-semibold text-gray-900">${stat.value}</dd>
+        </div>
+    `).join('');
+    
+    // Render recent activity (last 3 tickets)
+    const recentActivity = tickets.slice(-3).reverse();
+    const activityContainer = document.getElementById('recent-activity');
+    activityContainer.innerHTML = recentActivity.map((ticket, index) => `
+        <div class="py-4 ${index === 0 ? 'pt-0' : ''} ${index === recentActivity.length - 1 ? 'pb-0' : ''}">
+            <div class="flex items-start">
+                <span class="status-tag ${getStatusClass(ticket.status)}">
+                    ${ticket.status.replace('_', ' ')}
+                </span>
+                <div class="ml-3">
+                    <p class="text-sm font-medium text-gray-900">${ticket.title}</p>
+                    <p class="text-sm text-gray-600">${formatTime(ticket.createdAt)}</p>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+function getStatusClass(status) {
+    const classes = {
+        'open': 'status-tag-open',
+        'in_progress': 'status-tag-in-progress',
+        'closed': 'status-tag-closed'
+    };
+    return classes[status] || '';
+}
+
+function formatTime(timestamp) {
+    const now = Date.now();
+    const diff = now - new Date(timestamp).getTime();
+    const minutes = Math.floor(diff / 60000);
+    const hours = Math.floor(diff / 3600000);
+    
+    if (minutes < 1) return 'just now';
+    if (minutes < 60) return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+    if (hours < 24) return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+    return new Date(timestamp).toLocaleDateString();
+}
+
+// Load on page load
+loadDashboard();
+</script>
+{% endblock %}

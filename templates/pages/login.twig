@@ -1,0 +1,109 @@
+{% extends "layouts/base.twig" %}
+
+{% block title %}Login - TicketApp{% endblock %}
+
+{% block content %}
+<div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full space-y-8">
+        <div>
+            <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                Sign in to your account
+            </h2>
+            <p class="mt-2 text-center text-sm text-gray-600">
+                Or
+                <a href="#" onclick="navigateTo('signup'); return false;" class="font-medium text-primary-600 hover:text-primary-500">
+                    create a new account
+                </a>
+            </p>
+        </div>
+        <form id="login-form" class="mt-8 space-y-6">
+            <div class="rounded-md shadow-sm space-y-4">
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700">
+                        Email address
+                    </label>
+                    <input
+                        id="email"
+                        name="email"
+                        type="email"
+                        autocomplete="email"
+                        required
+                        class="form-input mt-1"
+                    />
+                    <p id="email-error" class="mt-1 text-sm text-red-600 hidden"></p>
+                </div>
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700">
+                        Password
+                    </label>
+                    <input
+                        id="password"
+                        name="password"
+                        type="password"
+                        autocomplete="current-password"
+                        required
+                        class="form-input mt-1"
+                    />
+                    <p id="password-error" class="mt-1 text-sm text-red-600 hidden"></p>
+                </div>
+            </div>
+
+            <div>
+                <button
+                    type="submit"
+                    id="login-btn"
+                    class="btn-primary w-full flex justify-center"
+                >
+                    Sign in
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.getElementById('login-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const btn = document.getElementById('login-btn');
+    
+    // Clear previous errors
+    document.getElementById('email-error').classList.add('hidden');
+    document.getElementById('password-error').classList.add('hidden');
+    
+    // Validation
+    if (!email || !validateEmail(email)) {
+        document.getElementById('email-error').textContent = 'Invalid email address';
+        document.getElementById('email-error').classList.remove('hidden');
+        return;
+    }
+    
+    if (password.length < 6) {
+        document.getElementById('password-error').textContent = 'Password must be at least 6 characters';
+        document.getElementById('password-error').classList.remove('hidden');
+        return;
+    }
+    
+    // Simulate loading
+    btn.textContent = 'Signing in...';
+    btn.disabled = true;
+    
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    // Login
+    const token = btoa(email);
+    Auth.login(token);
+    showToast('Login successful!', 'success');
+    navigateTo('dashboard');
+});
+
+function validateEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+</script>
+{% endblock %}

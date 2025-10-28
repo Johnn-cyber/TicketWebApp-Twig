@@ -1,0 +1,68 @@
+{% extends "layouts/base.twig" %}
+
+{% block title %}Welcome - TicketApp{% endblock %}
+
+{% block content %}
+<div class="relative min-h-screen bg-white">
+    {% include 'components/wave-background.twig' %}
+    
+    <!-- Decorative circles -->
+    <div class="absolute right-10 top-32 w-72 h-72 bg-primary-100 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-float"></div>
+    <div class="absolute -left-10 top-48 w-72 h-72 bg-purple-100 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-float" style="animation-delay: 2s"></div>
+    
+    <div class="relative container-max pt-20 pb-16 sm:pt-24 sm:pb-20">
+        <!-- Navigation -->
+        <nav class="flex items-center justify-between mb-16">
+            <div class="text-2xl font-bold text-gray-900">TicketApp</div>
+            <div class="space-x-4">
+                <button onclick="navigateTo('login')" class="btn-secondary">
+                    Log in
+                </button>
+                <button onclick="navigateTo('signup')" class="btn-primary">
+                    Sign up
+                </button>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <div class="max-w-3xl mx-auto text-center">
+            <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
+                Simplify Your Support Workflow
+            </h1>
+            <p class="mt-6 text-lg leading-8 text-gray-600">
+                Streamline your customer support with our intuitive ticket management system. 
+                Track, manage, and resolve issues efficiently all in one place.
+            </p>
+            <div class="mt-10 flex items-center justify-center gap-x-6">
+                <a href="#" onclick="navigateTo('signup'); return false;" class="btn-primary">
+                    Get started
+                </a>
+                <a href="#features" class="text-sm font-semibold leading-6 text-gray-900">
+                    Learn more <span aria-hidden="true">→</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <div id="features" class="mt-32">
+            <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                <div class="card hover:shadow-md transition-shadow">
+                    <div class="text-primary-600 mb-4 text-4xl">📊</div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Real-time Updates</h3>
+                    <p class="text-gray-600">Track ticket status changes and updates in real-time, ensuring your team stays synchronized.</p>
+                </div>
+                <div class="card hover:shadow-md transition-shadow">
+                    <div class="text-primary-600 mb-4 text-4xl">🎯</div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Smart Organization</h3>
+                    <p class="text-gray-600">Categorize and prioritize tickets efficiently with our intuitive organizational tools.</p>
+                </div>
+                <div class="card hover:shadow-md transition-shadow">
+                    <div class="text-primary-600 mb-4 text-4xl">📈</div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Detailed Analytics</h3>
+                    <p class="text-gray-600">Get insights into your support performance with comprehensive analytics and reporting.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

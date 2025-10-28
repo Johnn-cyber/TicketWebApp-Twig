@@ -1,0 +1,156 @@
+{% extends "layouts/base.twig" %}
+
+{% block title %}Sign Up - TicketApp{% endblock %}
+
+{% block content %}
+<div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full space-y-8">
+        <div>
+            <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                Create your account
+            </h2>
+            <p class="mt-2 text-center text-sm text-gray-600">
+                Or
+                <a href="#" onclick="navigateTo('login'); return false;" class="font-medium text-primary-600 hover:text-primary-500">
+                    sign in to your account
+                </a>
+            </p>
+        </div>
+        <form id="signup-form" class="mt-8 space-y-6">
+            <div class="rounded-md shadow-sm space-y-4">
+                <div>
+                    <label for="name" class="block text-sm font-medium text-gray-700">
+                        Full Name
+                    </label>
+                    <input
+                        id="name"
+                        name="name"
+                        type="text"
+                        autocomplete="name"
+                        required
+                        class="form-input mt-1"
+                    />
+                    <p id="name-error" class="mt-1 text-sm text-red-600 hidden"></p>
+                </div>
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700">
+                        Email address
+                    </label>
+                    <input
+                        id="email"
+                        name="email"
+                        type="email"
+                        autocomplete="email"
+                        required
+                        class="form-input mt-1"
+                    />
+                    <p id="email-error" class="mt-1 text-sm text-red-600 hidden"></p>
+                </div>
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700">
+                        Password
+                    </label>
+                    <input
+                        id="password"
+                        name="password"
+                        type="password"
+                        autocomplete="new-password"
+                        required
+                        class="form-input mt-1"
+                    />
+                    <p id="password-error" class="mt-1 text-sm text-red-600 hidden"></p>
+                </div>
+                <div>
+                    <label for="confirmPassword" class="block text-sm font-medium text-gray-700">
+                        Confirm Password
+                    </label>
+                    <input
+                        id="confirmPassword"
+                        name="confirmPassword"
+                        type="password"
+                        autocomplete="new-password"
+                        required
+                        class="form-input mt-1"
+                    />
+                    <p id="confirmPassword-error" class="mt-1 text-sm text-red-600 hidden"></p>
+                </div>
+            </div>
+
+            <div>
+                <button
+                    type="submit"
+                    id="signup-btn"
+                    class="btn-primary w-full flex justify-center"
+                >
+                    Create account
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.getElementById('signup-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    const btn = document.getElementById('signup-btn');
+    
+    // Clear previous errors
+    ['name', 'email', 'password', 'confirmPassword'].forEach(field => {
+        document.getElementById(`${field}-error`).classList.add('hidden');
+    });
+    
+    let hasError = false;
+    
+    // Validation
+    if (name.length < 2) {
+        document.getElementById('name-error').textContent = 'Name is too short';
+        document.getElementById('name-error').classList.remove('hidden');
+        hasError = true;
+    }
+    
+    if (!email || !validateEmail(email)) {
+        document.getElementById('email-error').textContent = 'Invalid email address';
+        document.getElementById('email-error').classList.remove('hidden');
+        hasError = true;
+    }
+    
+    if (password.length < 6) {
+        document.getElementById('password-error').textContent = 'Password must be at least 6 characters';
+        document.getElementById('password-error').classList.remove('hidden');
+        hasError = true;
+    }
+    
+    if (password !== confirmPassword) {
+        document.getElementById('confirmPassword-error').textContent = 'Passwords must match';
+        document.getElementById('confirmPassword-error').classList.remove('hidden');
+        hasError = true;
+    }
+    
+    if (hasError) return;
+    
+    // Simulate loading
+    btn.textContent = 'Creating account...';
+    btn.disabled = true;
+    
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    // Create account
+    const token = btoa(email);
+    Auth.login(token);
+    showToast('Account created successfully!', 'success');
+    navigateTo('dashboard');
+});
+
+function validateEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+</script>
+{% endblock %}
