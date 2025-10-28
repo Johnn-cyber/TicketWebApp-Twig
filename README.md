@@ -29,14 +29,17 @@ A modern, lightweight ticket management system built with **PHP**, **Twig**, and
 ## 🚀 Getting Started
 
 ### 1️⃣ Clone the Repository
-```bash
+```
 git clone https://github.com/your-username/ticketapp-twig.git
 cd ticketapp-twig
-2️⃣ Install Dependencies and Start the Server
+```
+### 2️⃣ Install Dependencies and Start the Server
 
 Install PHP dependencies using Composer and start a local server:
+```
 composer install
 php -S localhost:8000 -t public
+```
 Your app should now be accessible at http://localhost:8000
 
 📁 Project Structure
